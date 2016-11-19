@@ -15,14 +15,16 @@ license that can be found in the LICENSE file.
 
       socket.on('data', function(data) {
         if (data.type === 'temp') {
-          updateTemp(data.temp);
+          var probe = document.getElementById(data.id);
+          if (probe === null) {
+            var newProbe = '<div id="' + data.id + '"></div>';
+            var temps = document.getElementById('temps');
+            temps.innerHTML = temps.innerHTML + newProbe;
+            probe = document.getElementById(data.id);
+          }
+          probe.innerHTML = data.id + ':' + data.temp;
         }
       });
-
-      var updateTemp = function(temp) {
-        var temps = document.getElementById('temps');
-        temps.innerHTML = temp;
-      }
 
     </script>
 
