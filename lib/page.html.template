@@ -1,0 +1,44 @@
+<!--
+Copyright 2016 the project authors as listed in the AUTHORS file.
+All rights reserved. Use of this source code is governed by the
+license that can be found in the LICENSE file.
+-->
+
+<html>
+  <head>
+    <title><DASHBOARD_TITLE></title>
+
+    <script src="/socket.io/socket.io.js"></script>
+
+    <script>
+      socket = new io.connect('<URL_TYPE>://' + window.location.host);
+
+      socket.on('data', function(data) {
+        if (data.type === 'temp') {
+          updateTemp(data.temp);
+        }
+      });
+
+      var updateTemp = function(temp) {
+        var temps = document.getElementById('temps');
+        temps.innerHTML = temp;
+      }
+
+    </script>
+
+    <style>
+      #temp {
+        width: 100%;
+        height: 100%;
+        top: 0;
+        left: 0;
+        background-color: grey;
+        overflow:hidden;
+      }
+    </style>
+  </head>
+
+  <body padding="0", margin="0">
+    <div id="temps"></div>
+  </body>
+</html>
