@@ -13,16 +13,58 @@ license that can be found in the LICENSE file.
     <script>
       socket = new io.connect('<URL_TYPE>://' + window.location.host);
 
+      var meatSelections = '<option value="beef">Beef</option>' + 
+                           '<option value="chicken">Chicken</option>';
+
+      var tasteSelections = '<option value="rare">Rare</option>' + 
+                            '<option value="mediam-rare">Medium Rare</option>';
+
       socket.on('data', function(data) {
         if (data.type === 'temp') {
           var probe = document.getElementById(data.id);
           if (probe === null) {
-            var newProbe = '<div id="' + data.id + '"></div>';
-            var temps = document.getElementById('temps');
-            temps.innerHTML = temps.innerHTML + newProbe;
-            probe = document.getElementById(data.id);
+            probe = document.createElement('probe');
+            probe.id = data.id;
+            var tempElement = document.createElement('temp');
+            probe.appendChild(tempElement);
+
+            var targetElement = document.createElement('target');
+            probe.appendChild(targetElement);
+
+            var deviceElement = document.createElement('device');
+            probe.appendChild(deviceElement);
+            probe.children[2].innerHTML = data.id;
+
+            var meatElement = document.createElement('select');
+            meatElement.className = 'meat';
+            meatElement.innerHTML = meatSelections;
+            probe.appendChild(meatElement);
+
+            var tasteElement = document.createElement('select');
+            tasteElement.className = 'taste';
+            tasteElement.innerHTML = tasteSelections;
+            probe.appendChild(tasteElement);
+
+            var scaleF = document.createElement('scale');
+            scaleF.id = 'scaleF';
+            scaleF.innerHTML = 'F';
+            scaleF.className = 'scaleF';
+            probe.appendChild(scaleF);
+
+            var scaleC= document.createElement('scale');
+            scaleC.id = 'scaleC';
+            scaleC.innerHTML = 'C';
+            scaleC.className = 'scaleC';
+            probe.appendChild(scaleC);
+
+            var muteElement= document.createElement('mute');
+            muteElement.innerHTML = 'mute';
+            probe.appendChild(muteElement);
+
+            document.getElementById('temps').appendChild(probe);
           }
-          probe.innerHTML = data.id + ':' + data.temp;
+          probe.children[0].innerHTML = data.temp;
+          probe.children[1].innerHTML = 'Target:' + data.target;
         }
       });
 
@@ -42,18 +84,104 @@ license that can be found in the LICENSE file.
     </script>
 
     <style>
-      #temp {
+      main {
         width: 100%;
         height: 100%;
-        top: 0;
+        top: -100%;
         left: 0;
-        background-color: grey;
-        overflow:hidden;
+        margin: 0;
+        padding: 0;
       }
+
+      probe {
+        width: 100%; 
+        height: 100px;
+        background-color: ForestGreen;
+        border-radius: 25px;
+        position: relative;
+        display: block;
+        margin: 2px;
+        border: 2px solid black;
+      }
+
+      temp {
+        width: 150px; 
+        height: 50px; 
+        font-size: 40px;
+        position: absolute;
+        padding: 5px
+      }
+
+      target {
+        width: 150px 
+        height: 20px 
+        font-size: 15px;
+        position: absolute;
+        left: 5px;
+	top: 51px; 
+      }
+
+      device {
+        width: 50px 
+        height: 20px 
+        font-size: 15px;
+        position: absolute;
+        left: 10px;
+	top: 71px; 
+      }
+
+      .meat {
+        width: 140px 
+        height: 15px 
+        font-size: 15px;
+        position: absolute;
+        left: 150px;
+	top: 2px; 
+      }
+
+      .taste {
+        width: 140px 
+        height: 15px 
+        font-size: 15px;
+        position: absolute;
+        left: 150px;
+	top: 26px; 
+      }
+
+      .scaleF {
+        border-radius: 3px;
+        font-size: 10px;
+        position: absolute;
+        left: 135px;
+	top: 27px; 
+        background-color: lightgrey;
+        padding: 2px;
+      }
+
+      .scaleC {
+        border-radius: 3px;
+        font-size: 10px;
+        position: absolute;
+        left: 120px;
+	top: 27px; 
+        background-color: lightgrey;
+        padding: 2px;
+      }
+
+      mute {
+        border-radius: 3px;
+        height: 20px 
+        font-size: 15px;
+        position: absolute;
+        left: 71px;
+	top: 72px; 
+        background-color: lightgrey;
+      }
+
     </style>
   </head>
 
-  <body padding="0", margin="0">
-    <div id="temps"></div>
+  <body padding="0", margin="0", width="100%", height = "100%">
+    <main id="temps" ></main>
   </body>
 </html>
