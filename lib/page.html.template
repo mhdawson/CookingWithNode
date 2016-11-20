@@ -13,11 +13,9 @@ license that can be found in the LICENSE file.
     <script>
       socket = new io.connect('<URL_TYPE>://' + window.location.host);
 
-      var meatSelections = '<option value="beef">Beef</option>' + 
-                           '<option value="chicken">Chicken</option>';
+      var meatSelections = "";
 
-      var tasteSelections = '<option value="rare">Rare</option>' + 
-                            '<option value="mediam-rare">Medium Rare</option>';
+      var tasteSelections = new Object();
 
       socket.on('data', function(data) {
         if (data.type === 'temp') {
@@ -38,11 +36,13 @@ license that can be found in the LICENSE file.
             var meatElement = document.createElement('select');
             meatElement.className = 'meat';
             meatElement.innerHTML = meatSelections;
+            meatElement.value = data.meat;
             probe.appendChild(meatElement);
 
             var tasteElement = document.createElement('select');
             tasteElement.className = 'taste';
-            tasteElement.innerHTML = tasteSelections;
+            tasteElement.innerHTML = tasteSelections[data.meat];
+            tasteElement.value = data.taste;
             probe.appendChild(tasteElement);
 
             var scaleF = document.createElement('scale');
@@ -78,6 +78,24 @@ license that can be found in the LICENSE file.
       socket.on('cleanup-all', function() {
         var temps = document.getElementById('temps');
         temps.innerHTML = "";
+      });
+
+      socket.on('tastes', function(data) {
+        targetTemps = data;
+        for (let i = 0; i < targetTemps.length; i++ ) {
+          meatSelections = meatSelections + '<option id="' + targetTemps[i].name + '">'
+                                          + targetTemps[i].name
+                                          + '</option>';
+          var targTemps = targetTemps[i].temps;
+          var tasteSelection = "";
+          tasteSelections[targetTemps[i].name] = "";
+          for (let j = 0; j < targTemps.length; j++ ) {
+            tasteSelection = tasteSelection + '<option id="' + Object.keys(targTemps[j])[0] + '">'
+                                            + Object.keys(targTemps[j])[0]
+                                            + '</option>';
+          }
+          tasteSelections[targetTemps[i].name] = tasteSelection;
+        }
       });
 
 
