@@ -26,6 +26,19 @@ license that can be found in the LICENSE file.
         }
       });
 
+      socket.on('cleanup', function(data) {
+        var probe = document.getElementById(data.id);
+        if (probe !== null) {
+          probe.parentNode.removeChild(probe);
+        }
+      });
+
+      socket.on('cleanup-all', function() {
+        var temps = document.getElementById('temps');
+        temps.innerHTML = "";
+      });
+
+
     </script>
 
     <style>
