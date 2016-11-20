@@ -37,6 +37,9 @@ license that can be found in the LICENSE file.
             meatElement.className = 'meat';
             meatElement.innerHTML = meatSelections;
             meatElement.value = data.meat;
+            meatElement.onchange = function () {
+              socket.emit('new-meat', probe.id, meatElement.value);
+            }
             probe.appendChild(meatElement);
 
             var tasteElement = document.createElement('select');
@@ -65,6 +68,7 @@ license that can be found in the LICENSE file.
           }
           probe.children[0].innerHTML = data.temp;
           probe.children[1].innerHTML = 'Target:' + data.target;
+          probe.children[4].innerHTML = tasteSelections[data.meat];
         }
       });
 
@@ -81,6 +85,8 @@ license that can be found in the LICENSE file.
       });
 
       socket.on('tastes', function(data) {
+        meatSelections = "";
+        tasteSelections = new Object();
         targetTemps = data;
         for (let i = 0; i < targetTemps.length; i++ ) {
           meatSelections = meatSelections + '<option id="' + targetTemps[i].name + '">'
