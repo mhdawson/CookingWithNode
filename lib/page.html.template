@@ -31,7 +31,7 @@ license that can be found in the LICENSE file.
 
             var deviceElement = document.createElement('device');
             probe.appendChild(deviceElement);
-            probe.children[2].innerHTML = data.id;
+            probe.children[2].innerHTML = 'probe[' + data.id + ']';
 
             var meatElement = document.createElement('select');
             meatElement.className = 'meat';
@@ -131,21 +131,19 @@ license that can be found in the LICENSE file.
       }
 
       target {
-        width: 150px 
-        height: 20px 
-        font-size: 15px;
+        width: 150px; 
+        height: 22px; 
+        font-size: 20px;
         position: absolute;
         left: 5px;
 	top: 51px; 
       }
 
       device {
-        width: 50px 
-        height: 20px 
-        font-size: 15px;
+        font-size: 12px;
         position: absolute;
         left: 10px;
-	top: 71px; 
+	top: 74px; 
       }
 
       .meat {
@@ -191,8 +189,8 @@ license that can be found in the LICENSE file.
         height: 20px 
         font-size: 15px;
         position: absolute;
-        left: 71px;
-	top: 72px; 
+        left: 91px;
+	top: 75px; 
         background-color: lightgrey;
       }
 
