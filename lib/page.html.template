@@ -54,13 +54,27 @@ license that can be found in the LICENSE file.
             var scaleF = document.createElement('scale');
             scaleF.id = 'scaleF';
             scaleF.innerHTML = 'F';
-            scaleF.className = 'scaleF';
+            if (!data.scaleC) {
+              scaleF.className = 'selected scaleF';
+            } else {
+              scaleF.className = 'scaleF';
+            }
+            scaleF.onclick = function() {
+              socket.emit('scaleC', probe.id, false);
+            }
             probe.appendChild(scaleF);
 
             var scaleC= document.createElement('scale');
             scaleC.id = 'scaleC';
             scaleC.innerHTML = 'C';
-            scaleC.className = 'scaleC';
+            if (scaleC) {
+              scaleC.className = 'selected scaleC';
+            } else {
+              scaleC.className = 'scaleC';
+            }
+            scaleC.onclick = function() {
+              socket.emit('scaleC', probe.id, true);
+            }
             probe.appendChild(scaleC);
 
             var muteElement= document.createElement('mute');
@@ -73,6 +87,13 @@ license that can be found in the LICENSE file.
           probe.children[1].innerHTML = 'Target:' + data.target;
           probe.children[4].innerHTML = tasteSelections[data.meat];
           probe.children[4].value = data.taste;
+          if ((data.scaleC) && (probe.children[5].className != 'scaleF')) {
+            probe.children[5].className = 'scaleF';
+            probe.children[6].className = 'selected scaleC';
+          } else if ((!data.scaleC) && (probe.children[6].className != 'scaleC')) {
+            probe.children[5].className = 'selected scaleF';
+            probe.children[6].className = 'scaleC';
+          }
         }
       });
 
@@ -180,7 +201,7 @@ license that can be found in the LICENSE file.
         position: absolute;
         left: 135px;
 	top: 27px; 
-        background-color: lightgrey;
+        background-color: grey;
         padding: 2px;
       }
 
@@ -190,8 +211,12 @@ license that can be found in the LICENSE file.
         position: absolute;
         left: 120px;
 	top: 27px; 
-        background-color: lightgrey;
+        background-color: grey;
         padding: 2px;
+      }
+
+      .selected {
+        background-color: lightgrey !important;
       }
 
       mute {
