@@ -46,6 +46,9 @@ license that can be found in the LICENSE file.
             tasteElement.className = 'taste';
             tasteElement.innerHTML = tasteSelections[data.meat];
             tasteElement.value = data.taste;
+            tasteElement.onchange = function () {
+              socket.emit('new-taste', probe.id, tasteElement.value);
+            }
             probe.appendChild(tasteElement);
 
             var scaleF = document.createElement('scale');
@@ -69,6 +72,7 @@ license that can be found in the LICENSE file.
           probe.children[0].innerHTML = data.temp;
           probe.children[1].innerHTML = 'Target:' + data.target;
           probe.children[4].innerHTML = tasteSelections[data.meat];
+          probe.children[4].value = data.taste;
         }
       });
 
