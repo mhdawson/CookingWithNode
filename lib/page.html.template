@@ -9,14 +9,39 @@ license that can be found in the LICENSE file.
     <title><DASHBOARD_TITLE></title>
 
     <script src="/socket.io/socket.io.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.17.0/moment.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.1.4/Chart.min.js"></script>
 
     <script>
       var urlType = '<URL_TYPE>://';
       socket = new io.connect(urlType + window.location.host);
 
+      Chart.defaults.global.legend.display = false;
+      Chart.defaults.global.responsive = false;
+      Chart.defaults.scale.display = false;
+      Chart.defaults.global.elements.line.borderWidth = 4;
+      Chart.defaults.global.elements.line.borderColor = 'black';
+
+      var toF = function(temp) {
+        return Math.ceil((temp*1.8 + 32));
+      }
+
+      var toC = function(temp) {
+        return ((temp -32)/1.8).toFixed(2);
+      }
+
+      var convertTemp = function(scaleC, temp) {
+        if (scaleC) {
+          return temp;
+        } else {
+          return toF(temp);
+        }
+      }
+
       var meatSelections = "";
 
       var tasteSelections = new Object();
+      var probesHistory = new Object();
 
       var muteTimers = new Object();
       var flashMute = function(probeId)  {
@@ -130,9 +155,49 @@ license that can be found in the LICENSE file.
             probe.appendChild(muteElement);
 
             document.getElementById('temps').appendChild(probe);
+            var chartDiv = document.createElement('div');
+            probe.appendChild(chartDiv);
+            var chartElement = document.createElement('canvas');
+            chartElement.className = 'chart';
+            chartDiv.appendChild(chartElement);
+            var chartCtx = chartElement.getContext('2d');
+            var tempData = {
+                labels: [],
+                datasets: [ { backgroundColor: 'grey',
+                              strokeColor: 'black',
+                              pointBorderColor: 'black',
+                              pointBackgroundColor: 'black',
+                              data: [] },
+                            { strokeColor: 'black',
+                              pointColor: 'black',
+                              fill:false,
+                              data: [] },
+                          ]
+              };
+
+            if (probesHistory[probe.id]) {
+              tempData.labels =  probesHistory[probe.id].timestamps;
+              tempData.datasets[0].data =  probesHistory[probe.id].temps;
+              tempData.datasets[1].data =  probesHistory[probe.id].targets;
+            }
+
+            chartDiv.chartHandle = new Chart(chartCtx, { type: 'line',
+                                                         data: tempData,
+                                                         options:
+                                                           {scales: { yAxes: [{ ticks: { beginAtZero: true}}],
+                                                                      xAxes: [{ type: 'time' }] }
+                                                         }
+                                                       });
           }
-          probe.children[0].innerHTML = data.temp;
-          probe.children[1].innerHTML = 'Target:' + data.target;
+
+          var chart = probe.children[8].chartHandle;
+          chart.data.labels.push(data.timestamp);
+          chart.data.datasets[0].data.push(data.temp);
+          chart.data.datasets[1].data.push(data.target);
+          chart.update();
+
+          probe.children[0].innerHTML = convertTemp(data.scaleC, data.temp);
+          probe.children[1].innerHTML = 'Target:' + convertTemp(data.scaleC, data.target);
           probe.children[4].innerHTML = tasteSelections[data.meat];
           probe.children[4].value = data.taste;
           if ((data.scaleC) && (probe.children[5].className != 'scaleF')) {
@@ -165,12 +230,14 @@ license that can be found in the LICENSE file.
         var probe = document.getElementById(data.id);
         if (probe !== null) {
           probe.parentNode.removeChild(probe);
+          delete probesHistory[data.id];
         }
       });
 
       socket.on('cleanup-all', function() {
         var temps = document.getElementById('temps');
         temps.innerHTML = "";
+        probesHistory = new Object();
       });
 
       socket.on('tastes', function(data) {
@@ -193,6 +260,9 @@ license that can be found in the LICENSE file.
         }
       });
 
+      socket.on('chartData', function(data) {
+        probesHistory  = data;
+      });
 
     </script>
 
@@ -304,6 +374,16 @@ license that can be found in the LICENSE file.
       .flash {
         background-color: transparent !important;
       }
+
+      .chart  {
+        max-height: 35px;
+        max-width: 120px;
+        position: absolute;
+        left: 150px;
+        top: 60px;
+      }
+
+      .flash {
 
     </style>
   </head>
