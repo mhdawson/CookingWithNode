@@ -18,6 +18,28 @@ license that can be found in the LICENSE file.
 
       var tasteSelections = new Object();
 
+      var muteTimers = new Object();
+      var flashMute = function(probeId)  {
+        stopFlashMute(probeId);
+        muteTimers[probeId] = setInterval(function() {
+          var probe = document.getElementById(probeId);
+          if (probe.children[7].className === 'mute') {
+            probe.children[7].className = 'mute flash';
+          } else {
+            probe.children[7].className = 'mute';
+          }
+        }, 1000);
+      }
+
+      var stopFlashMute = function(probeId) {
+        if (muteTimers[probeId] !== undefined) {
+          clearInterval(muteTimers[probeId]);
+          muteTimers[probeId] = undefined;
+        }
+        var probe = document.getElementById(probeId);
+        probe.children[7].className = 'mute';
+      }
+
       var soundElems = new Object();
       var playSound = function(probeId, file, repeat) {
         stopSound(probeId);
@@ -103,6 +125,7 @@ license that can be found in the LICENSE file.
             muteElement.innerHTML = 'mute';
             muteElement.onclick = function() {
               stopSound(probe.id);
+              stopFlashMute(probe.id);
             }
             probe.appendChild(muteElement);
 
@@ -124,11 +147,13 @@ license that can be found in the LICENSE file.
             if (probe.className !== 'warn probe') {
               probe.className = 'warn probe';
               playSound(data.id, 'warnSound', true); 
+              flashMute(data.id);
             }
           } else if (data.status === 'alert') {
             if (probe.className !== 'alert probe') {
               probe.className = 'alert probe';
               playSound(data.id, 'targetSound', true);
+              flashMute(data.id);
             }
           } else {
             probe.className = 'probe';
@@ -274,6 +299,10 @@ license that can be found in the LICENSE file.
         left: 91px;
 	top: 75px; 
         background-color: lightgrey;
+      }
+
+      .flash {
+        background-color: transparent !important;
       }
 
     </style>
