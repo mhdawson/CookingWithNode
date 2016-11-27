@@ -198,6 +198,7 @@ license that can be found in the LICENSE file.
 
           probe.children[0].innerHTML = convertTemp(data.scaleC, data.temp);
           probe.children[1].innerHTML = 'Target:' + convertTemp(data.scaleC, data.target);
+          probe.children[3].value = data.meat;
           probe.children[4].innerHTML = tasteSelections[data.meat];
           probe.children[4].value = data.taste;
           if ((data.scaleC) && (probe.children[5].className != 'scaleF')) {
