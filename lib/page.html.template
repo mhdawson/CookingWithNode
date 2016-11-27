@@ -11,14 +11,36 @@ license that can be found in the LICENSE file.
     <script src="/socket.io/socket.io.js"></script>
 
     <script>
-      socket = new io.connect('<URL_TYPE>://' + window.location.host);
+      var urlType = '<URL_TYPE>://';
+      socket = new io.connect(urlType + window.location.host);
 
       var meatSelections = "";
 
       var tasteSelections = new Object();
 
+      var soundElems = new Object();
+      var playSound = function(probeId, file, repeat) {
+        stopSound(probeId);
+        soundElems[probeId] = new Audio(urlType + window.location.host + '/' + file);
+        if (repeat) {
+          soundElems[probeId].addEventListener('ended', function() {
+            this.currentTime = 0;
+            this.play();
+          }, false);
+        }
+        soundElems[probeId].play();
+      }
+
+      var stopSound = function(probeId) {
+        if (soundElems[probeId] !== undefined) {
+          soundElems[probeId].pause();
+          soundElems[probeId].currentTime = 0;
+        }
+      }
+
       socket.on('data', function(data) {
         if (data.type === 'temp') {
+
           var probe = document.getElementById(data.id);
           if (probe === null) {
             probe = document.createElement('probe');
@@ -79,6 +101,9 @@ license that can be found in the LICENSE file.
 
             var muteElement= document.createElement('mute');
             muteElement.innerHTML = 'mute';
+            muteElement.onclick = function() {
+              stopSound(probe.id);
+            }
             probe.appendChild(muteElement);
 
             document.getElementById('temps').appendChild(probe);
@@ -93,6 +118,20 @@ license that can be found in the LICENSE file.
           } else if ((!data.scaleC) && (probe.children[6].className != 'scaleC')) {
             probe.children[5].className = 'selected scaleF';
             probe.children[6].className = 'scaleC';
+          }
+
+          if (data.status === 'warn' ) {
+            if (probe.className !== 'warn probe') {
+              probe.className = 'warn probe';
+              playSound(data.id, 'warnSound', true); 
+            }
+          } else if (data.status === 'alert') {
+            if (probe.className !== 'alert probe') {
+              probe.className = 'alert probe';
+              playSound(data.id, 'targetSound', true);
+            }
+          } else {
+            probe.className = 'probe';
           }
         }
       });
@@ -151,6 +190,14 @@ license that can be found in the LICENSE file.
         display: block;
         margin: 2px;
         border: 2px solid black;
+      }
+
+      .warn {
+        background-color: yellow !important;
+      }
+
+      .alert {
+        background-color: red !important;
       }
 
       temp {
@@ -234,5 +281,6 @@ license that can be found in the LICENSE file.
 
   <body padding="0", margin="0", width="100%", height = "100%">
     <main id="temps" ></main>
+    <div id=sound></div>
   </body>
 </html>
