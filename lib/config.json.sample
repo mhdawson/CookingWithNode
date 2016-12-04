@@ -1,6 +1,6 @@
 {
   "title": "Cooking with Node",
-  "windowSize": { "x":300, "y":300 },
+  "windowSize": { "x":350, "y":300 },
   "serverPort": 3000,
   "mqtt": { "serverUrl": "mqtt:10.1.1.186:1883",
             "mqttTopic": "house/meat/temp"
