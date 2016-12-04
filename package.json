@@ -1,0 +1,35 @@
+{
+  "name": "CookingWithNode",
+  "version": "0.0.1",
+  "description": "App to show wireless meat thermometer data",
+  "main": "lib/server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node lib/server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mhdawson/CookingWithNode.git"
+  },
+  "keywords": [
+    "meat",
+    "thermometer",
+    "micro-app-framework",
+    "micro-app",
+    "message",
+    "waiting",
+    "notify"
+  ],
+  "author": "Michael Dawson",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/mhdawson/CookingWithNode/issues"
+  },
+  "homepage": "https://github.com/mhdawson/CookingWithNod#readme",
+  "dependencies": {
+    "micro-app-framework": "^0.1.4",
+    "mqtt": "^2.0.1",
+    "socket.io": "^1.5.0",
+    "twilio": "^2.11.0"
+  }
+}
