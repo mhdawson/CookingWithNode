@@ -1,0 +1,121 @@
+<!--
+Copyright 2016 the project authors as listed in the AUTHORS file.
+All rights reserved. Use of this source code is governed by the
+license that can be found in the LICENSE file.
+-->
+
+main {
+  width: 100%;
+  height: 100%;
+  top: -100%;
+  left: 0;
+  margin: 0;
+  padding: 0;
+}
+
+probe {
+  width: 100%;
+  height: 100px;
+  background-color: ForestGreen;
+  border-radius: 25px;
+  position: relative;
+  display: block;
+  margin: 2px;
+  border: 2px solid black;
+}
+
+.warn {
+  background-color: yellow !important;
+}
+
+.alert {
+  background-color: red !important;
+}
+
+temp {
+  width: 150px;
+  height: 50px;
+  font-size: 40px;
+  position: absolute;
+  padding: 5px
+}
+
+target {
+  width: 150px;
+  height: 22px;
+  font-size: 20px;
+  position: absolute;
+  left: 5px;
+  top: 51px;
+}
+
+device {
+  font-size: 12px;
+  position: absolute;
+  left: 10px;
+  top: 74px;
+}
+
+.meat {
+  width: 140px
+  height: 15px
+  font-size: 15px;
+  position: absolute;
+  left: 150px;
+  top: 2px;
+}
+
+.taste {
+  width: 140px
+  height: 15px
+  font-size: 15px;
+  position: absolute;
+  left: 150px;
+  top: 26px;
+}
+
+.scaleF {
+  border-radius: 3px;
+  font-size: 10px;
+  position: absolute;
+  left: 135px;
+  top: 27px;
+  background-color: grey;
+  padding: 2px;
+}
+
+.scaleC {
+  border-radius: 3px;
+  font-size: 10px;
+  position: absolute;
+  left: 120px;
+  top: 27px;
+  background-color: grey;
+  padding: 2px;
+}
+
+.selected {
+  background-color: lightgrey !important;
+}
+
+mute {
+  border-radius: 3px;
+  height: 20px
+  font-size: 15px;
+  position: absolute;
+  left: 91px;
+  top: 75px;
+  background-color: lightgrey;
+}
+
+.flash {
+  background-color: transparent !important;
+}
+
+.chart  {
+  max-height: 35px;
+  max-width: 120px;
+  position: absolute;
+  left: 150px;
+  top: 60px;
+}
