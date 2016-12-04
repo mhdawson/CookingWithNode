@@ -271,6 +271,7 @@ license that can be found in the LICENSE file.
 
   <body padding="0", margin="0", width="100%", height = "100%">
     <main id="temps" ></main>
+    <blank>Waiting for Probes</blank>
     <div id=sound></div>
   </body>
 </html>
