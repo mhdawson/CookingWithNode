@@ -29,12 +29,12 @@ license that can be found in the LICENSE file.
       }
 
       var toC = function(temp) {
-        return ((temp -32)/1.8).toFixed(2);
+        return parseFloat(((temp -32)/1.8).toFixed(2));
       }
 
       var convertTemp = function(scaleC, temp) {
         if (scaleC) {
-          return temp;
+          return parseFloat(temp.toFixed(2));
         } else {
           return toF(temp);
         }
