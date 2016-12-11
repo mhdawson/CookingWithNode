@@ -1,7 +1,10 @@
 # CookingWithNode
 
-Node micro-app to display wireless meat thermometer data.  It currently works
-with the base from this meat thermometer:
+Node micro-app to display wireless meat thermometer data.  It runs
+as a backend Node.js application with the UI accessed from a browser
+or phone as shown below.
+
+It currently works with the base from this meat thermometer:
 
 ![MeatThermometer1](https://raw.githubusercontent.com/mhdawson/PI433WirelessRecvManager/master/pictures/MeatThermometer1.jpg)
 
@@ -81,8 +84,95 @@ the display after a few minutes and if it was the last probe the
 display will go back to displaying the original waiting
 for probes messsage.
 
+The server requires Node along with the modules defined in the
+package.json file to be installed.
+
+It also requires:
+
+* an mqtt server
+* A meat thremometer pushlishing temps through mqtt (for example,
+  using the PI433WirelessRecvManager described above)
+* twillio account or voip.ms account if you want SMS notifications
+
 # Configuration
 
+Most configuration is done in the config.json file in the lib
+directory which supports the following options:
+
+* title - title used to name the page for the app.
+* serverPort - port on which micro-app is listening for connections.
+* windowSize - size of the UI for the micro-app.
+* mqtt - object with serverUrl, rootTopic.
+* cleanupInternval - number of seconds after the last mesage from a
+  probe that we will decide the probe was turned off and drop it
+  from the display.
+* scaleC - true for display to default to Celcius, false to default  
+  to Farenheit.  This is optional and the default is true.
+* targetTemps - array with objects for each of the meat/target
+  temperatures.  See example below.
+* twilio - object specifying the accountSID, accountAuthToken, fromNumber
+  and toNumber that will be used to send SMS notifications using twilio
+* voipms - object specifying user, password, did and dtsk if using voip.ms
+  to send sms messages.
+* warn - number of degrees Celcius before target temperature to send
+  out warning. This is optional and the default is 5.6 degrees Celcius or
+  about 10 degerees Farenheit.
+* warnSound - This is optional, full path to the mp3 played
+  when the warning temperature is reached.
+* targetSound - This is optional, full path to the mp3 played
+  when the target temperature is reached.
+* skin - This is optional, name of the css file for the UI.  This file
+  should be in the lib directory and can be used to modify
+  the colors and/or layout of the probe display.
+* test - Note normally used but useful when customizing display.  Adds 2
+  dummy probes at startup (they will only remain for cleanupInterval
+  seconds).
+
+  As an example:
+
+```
+{
+  "title": "Cooking with Node",
+  "windowSize": { "x":350, "y":300 },
+  "serverPort": 3000,
+  "mqtt": { "serverUrl": "mqtt:10.1.1.186:1883",
+            "mqttTopic": "house/meat/temp"
+           },
+  "cleanupInterval": 180,
+  "scaleC": false,
+  "targetTemps": [
+                   { "name": "beef", "temps": [ { "well": 76 },
+                             { "medium well": 73 },
+                             { "medium": 71 },
+                             { "medium rare+": 65.5 },
+                             { "medium rare": 62 },
+                             { "rare": 60 } ] },
+                   { "name": "lamb", "temps": [ { "well": 76 },
+                             { "medium well": 73 },
+                             { "medium": 71 },
+                             { "medium rare": 62 } ] },
+                   { "name": "veal", "temps": [ { "well": 76 },
+                             { "medium well": 71 } ,
+                             { "medium": 62 },
+                             { "medium rare": 60 } ] },
+                   { "name": "hamburber", "temps": [ { "well": 76 } ] },
+                   { "name": "pork", "temps": [ { "well": 79 },
+                             { "medium well": 73 },
+                             { "medium": 71 } ] },
+                   { "name": "turkey", "temps": [ { "well": 79 } ] },
+                   { "name": "chicken", "temps": [ { "well": 79 } ] },
+                   { "name": "fish", "temps": [ { "well": 58 } ] }
+                 ],
+  "twilio2": { "accountSID": "",
+              "accountAuthToken": "",
+              "toNumber": "+" ,
+              "fromNumber": "" },
+  "voipms": { "user": "",
+              "password": "",
+              "did": "",
+              "dst": "" }
+}
+```
 
 
 # Installation
