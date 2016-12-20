@@ -231,6 +231,7 @@ license that can be found in the LICENSE file.
       socket.on('cleanup', function(data) {
         var probe = document.getElementById(data.id);
         if (probe !== null) {
+          stopSound(data.id);
           probe.parentNode.removeChild(probe);
           delete probesHistory[data.id];
         }
@@ -238,8 +239,12 @@ license that can be found in the LICENSE file.
 
       socket.on('cleanup-all', function() {
         var temps = document.getElementById('temps');
+        Object.keys(soundElems).forEach(function(key) {
+          stopSound(probeId);
+        });
         temps.innerHTML = "";
         probesHistory = new Object();
+        soundElems = new Object();
       });
 
       socket.on('tastes', function(data) {
