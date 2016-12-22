@@ -8,7 +8,8 @@ It currently works with the base from this meat thermometer:
 
 ![MeatThermometer1](https://raw.githubusercontent.com/mhdawson/PI433WirelessRecvManager/master/pictures/MeatThermometer1.jpg)
 
-using this project: [PI433WirelessRecvManager](https://github.com/mhdawson/PI433WirelessRecvManager).
+using this project: [PI433WirelessRecvManager](https://github.com/mhdawson/PI433WirelessRecvManager) or this less expensive project
+[Mqtt433Bridge](https://github.com/mhdawson/arduino-esp8266/tree/master/Mqtt433Bridge).
 
 You can get these for around $20 from Amazon and ebay.  I've ordered a couple
 of additional ones from different buyers to validate that all of the ones
