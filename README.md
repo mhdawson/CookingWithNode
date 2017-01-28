@@ -11,10 +11,9 @@ It currently works with the base from this meat thermometer:
 using this project: [PI433WirelessRecvManager](https://github.com/mhdawson/PI433WirelessRecvManager) or this less expensive project
 [Mqtt433Bridge](https://github.com/mhdawson/arduino-esp8266/tree/master/Mqtt433Bridge).
 
-You can get these for around $20 from Amazon and ebay.  I've ordered a couple
-of additional ones from different buyers to validate that all of the ones
-that look like this use the same protocol
-and will confirm that once I receive them.
+You can get these for around $15-20 from Amazon and ebay. I've tested ones that
+look like the picture (silver or black) from 4 different vendors and they all
+work so it seems like they all use the same electronics.
 
 The micro-app starts with a blank page indicating that it is listening for
 probes:
@@ -30,8 +29,8 @@ probes the display for each additional probe will show up under the
 previous probes. It is possible that the probe base will chose the
 same probe id an existing one, in which case you'll need to turn it
 off for 10-20 seconds and turn it back on. Most likely the base will
-pick another id.  Once I get additional probes I'll see how often
-conflicts occur.
+pick another id. I've started up to 4 probes at the same time and
+yet to have a colision.
 
 Using this project [micro-app-cordova-launcher](https://github.com/mhdawson/micro-app-cordova-launcher) you can build a native application for your phone which displays nicely as
 well:
