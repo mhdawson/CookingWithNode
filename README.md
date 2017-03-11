@@ -186,7 +186,7 @@ npm install cooking-with-node
 or
 
 ```
-npm install https://github.com/mhdawson/CookingWithNode
+npm install https://github.com/mhdawson/CookingWithNode.git
 ```
 
 and then configure the default config.json file in the lib directory
