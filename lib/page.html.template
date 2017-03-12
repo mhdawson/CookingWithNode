@@ -135,7 +135,7 @@ license that can be found in the LICENSE file.
             }
             probe.appendChild(scaleF);
 
-            var scaleC= document.createElement('scale');
+            var scaleC = document.createElement('scale');
             scaleC.id = 'scaleC';
             scaleC.innerHTML = 'C';
             if (scaleC) {
@@ -148,7 +148,7 @@ license that can be found in the LICENSE file.
             }
             probe.appendChild(scaleC);
 
-            var muteElement= document.createElement('mute');
+            var muteElement = document.createElement('mute');
             muteElement.innerHTML = 'mute';
             muteElement.onclick = function() {
               stopSound(probe.id);
@@ -189,6 +189,10 @@ license that can be found in the LICENSE file.
                                                                       xAxes: [{ type: 'time' }] }
                                                          }
                                                        });
+
+            var estimateElement = document.createElement('estimate');
+            estimateElement.innerHTML = '5 min';
+            probe.appendChild(estimateElement);
           }
 
           var chart = probe.children[8].chartHandle;
@@ -199,6 +203,7 @@ license that can be found in the LICENSE file.
 
           probe.children[0].innerHTML = convertTemp(data.scaleC, data.temp);
           probe.children[1].innerHTML = 'Target:' + convertTemp(data.scaleC, data.target);
+          probe.children[9].innerHTML = data.estimate + ' min';
           probe.children[3].value = data.meat;
           probe.children[4].innerHTML = tasteSelections[data.meat];
           probe.children[4].value = data.taste;
@@ -213,7 +218,7 @@ license that can be found in the LICENSE file.
           if (data.status === 'warn' ) {
             if (probe.className !== 'warn probe') {
               probe.className = 'warn probe';
-              playSound(data.id, 'warnSound', true); 
+              playSound(data.id, 'warnSound', true);
               flashMute(data.id);
             }
           } else if (data.status === 'alert') {
