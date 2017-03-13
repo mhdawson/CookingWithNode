@@ -11,7 +11,7 @@
                    { "name": "beef", "temps": [ { "well": 76 },
                              { "medium well": 73 },
                              { "medium": 71 },
-                             { "medium rare+": 65.5 },  
+                             { "medium rare+": 64.0 },  
                              { "medium rare": 62 },  
                              { "rare": 60 } ] },
                    { "name": "lamb", "temps": [ { "well": 76 },
