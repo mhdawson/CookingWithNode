@@ -28,6 +28,7 @@
   "homepage": "https://github.com/mhdawson/CookingWithNod#readme",
   "dependencies": {
     "micro-app-framework": "^0.1.4",
+    "micro-app-notify-client": "^0.0.1",
     "mqtt": "^2.0.1",
     "socket.io": "^1.5.0",
     "twilio": "^2.11.0"
