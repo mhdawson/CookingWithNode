@@ -30,12 +30,9 @@
                    { "name": "chicken", "temps": [ { "well": 79 } ] },
                    { "name": "fish", "temps": [ { "well": 58 } ] }
                  ],
-  "twilio2": { "accountSID": "",
-              "accountAuthToken": "",
-              "toNumber": "+" ,
-              "fromNumber": "" },
-  "voipms": { "user": "",
-              "password": "",
-              "did": "",
-              "dst": "" }
+  "notify": {
+    "mqttSmsBridge": { "enabled": true,
+                       "serverUrl": "mqtt:10.1.1.186:1883",
+                       "topic": "house/sms" }
+  }
 }
