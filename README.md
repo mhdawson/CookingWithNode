@@ -110,10 +110,31 @@ directory which supports the following options:
   to Farenheit.  This is optional and the default is true.
 * targetTemps - array with objects for each of the meat/target
   temperatures.  See example below.
-* twilio - object specifying the accountSID, accountAuthToken, fromNumber
-  and toNumber that will be used to send SMS notifications using twilio
-* voipms - object specifying user, password, did and dtsk if using voip.ms
-  to send sms messages.
+* notify - element with the following sub-elemens:
+  * mqttSmsBridge - element with the following sub-elements:
+    * enabled - set to true if you want notifications to
+      be sent using this provider.
+    * serverUrl - url for the mqtt server to which the
+      bridge is connected.
+    * topic - topic on which the bridge listens for
+      notification requests.
+    * certs - directory which contains the keys/certs
+      required to connect to the mqtt server if the
+      url is of type `mqtts`.
+  * voipms - element with the following sub-elements:
+    * enabled - set to true if you want notifications to
+      be sent using this provider.
+    * user - voip.ms API userid.
+    * password - voip.ms API password.
+    * did - voip.ms did(number) from which the SMS will be sent.
+    * dst - number to which the SMS will be sent.
+  * twilio - element with the following sub-elements:
+    * enabled - set to true if you want notifications to
+      be sent using this provider.
+    * accountSID - twilio account ID.
+    * accountAuthToken - twilio auth token.
+    * toNumber - number to which the SMS will be sent.
+    * fromNumber - number from which the SMS will be sent.
 * warn - number of degrees Celcius before target temperature to send
   out warning. This is optional and the default is 5.6 degrees Celcius or
   about 10 degerees Farenheit.
@@ -163,14 +184,11 @@ directory which supports the following options:
                    { "name": "chicken", "temps": [ { "well": 79 } ] },
                    { "name": "fish", "temps": [ { "well": 58 } ] }
                  ],
-  "twilio2": { "accountSID": "",
-              "accountAuthToken": "",
-              "toNumber": "+" ,
-              "fromNumber": "" },
-  "voipms": { "user": "",
-              "password": "",
-              "did": "",
-              "dst": "" }
+   "notify": {
+     "mqttSmsBridge": { "enabled": true,
+                        "serverUrl": "mqtt:10.1.1.186:1883",
+                        "topic": "house/sms" }
+   }
 }
 ```
 
