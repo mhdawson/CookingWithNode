@@ -1,6 +1,6 @@
 {
   "name": "cooking-with-node",
-  "version": "0.0.5",
+  "version": "1.0.0",
   "description": "App to show wireless meat thermometer data",
   "main": "lib/server.js",
   "scripts": {
