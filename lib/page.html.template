@@ -193,6 +193,19 @@ license that can be found in the LICENSE file.
             var estimateElement = document.createElement('estimate');
             estimateElement.innerHTML = '? m';
             probe.appendChild(estimateElement);
+
+            var shiftTemp = document.createElement('shiftTemp');
+            shiftTemp.id = 'shiftTemp';
+            shiftTemp.innerHTML = 'shift';
+            shiftTemp.className = 'shiftTemp';
+            shiftTemp.onclick = function() {
+              if (shiftTemp.className === 'selected shiftTemp') {
+                socket.emit('shift', probe.id, false);
+              } else {
+                socket.emit('shift', probe.id, true);
+              }
+            }
+            probe.appendChild(shiftTemp);
           }
 
           var chart = probe.children[8].chartHandle;
@@ -213,6 +226,11 @@ license that can be found in the LICENSE file.
           } else if ((!data.scaleC) && (probe.children[6].className != 'scaleC')) {
             probe.children[5].className = 'selected scaleF';
             probe.children[6].className = 'scaleC';
+          }
+          if (data.shiftTemp) {
+            probe.children[10].className = 'selected shiftTemp';
+          } else {
+            probe.children[10].className = 'shiftTemp';
           }
 
           if (data.status === 'warn' ) {

@@ -103,6 +103,16 @@ device {
   padding: 2px;
 }
 
+.shiftTemp {
+  border-radius: 3px;
+  font-size: 10px;
+  position: absolute;
+  left: 95px;
+  top: 5px;
+  background-color: grey;
+  padding: 2px;
+}
+
 .selected {
   background-color: lightgrey !important;
 }
